@@ -1,0 +1,161 @@
+﻿@using System.Text.RegularExpressions;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["HeadTitle"]</title>
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">    
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/lib/OwlCarousel2/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/lib/OwlCarousel2/assets/owl.theme.default.min.css" rel="stylesheet">
+	<link href="~/lib/jquery-ui/themes/base/jquery-ui.min.css" rel="stylesheet">
+    <link href="~/css/prettyPhoto.css" rel="stylesheet">
+    <link href="~/css/animate.css" rel="stylesheet">
+	<link href="~/css/main.min.css" rel="stylesheet">
+	<link href="~/css/responsive.css" rel="stylesheet">
+	<link href="~/css/mystyle.css" rel="stylesheet">
+
+	<meta property="fb:app_id" content="1585151324855686" /> 
+	<meta property="og:title" content="@Html.Raw(ViewData["HeadTitle"])" />
+	<meta property="og:url" content="http://@Context.Request.Host@Context.Request.Path" />
+	<meta property="og:type" content="website" />
+	<meta name="author" content="Công ty Phụ Kiện Điện Thoại">
+	<meta name="copyright" content="Công ty Phụ Kiện Điện Thoại">
+
+	@if ((Context.Request.Host + Context.Request.Path).Contains("/SanPham/"))
+	{
+	var description = Regex.Replace(Model.TomTat, "<.*?>", string.Empty).Substring(0, 100) + "...";
+	<meta property="og:description" content="@Html.Raw(description)" />
+	<meta property="og:image" content="http://@Context.Request.Host/images/SanPham/@Html.Raw(@Model.HinhAnh)" />
+	<meta name="keywords" content="mua @Html.Raw(@Model.TenSanPham), mua online @Html.Raw(@Model.TenSanPham), @Html.Raw(@Model.TenSanPham)">
+	<meta name="description" content="Mua @Html.Raw(@Model.TenSanPham) giá rẻ, khuyến mãi tốt bảo hành 1 đổi 1 tại PhuKienDienThoai.com">
+	}
+	else
+	{
+	<meta property="og:description" content="Cần phụ kiện trang bị cho dế yêu? Hãy đến với Phụ Kiện Điện Thoại!!!" />
+	<meta name="keywords" content="Phụ Kiện Điện Thoại, mua phụ kiện, phụ kiện, công ty Phụ Kiện">
+	<meta name="description" content="Niềm vui mua sắm phụ kiện điện thoại bất tận">
+	}
+	@RenderSection("styles",  required: false)
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124422572-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-124422572-1');
+	</script>
+</head>
+<body>
+	
+	<div class="fb-root"></div>
+    <header id="header"><!--header-->  
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="contactinfo">
+							<ul class="nav nav-pills">
+								<li><a href="#"><i class="fa fa-envelope"></i> webmaster@hcmue.edu.vn</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="social-icons pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="https://www.facebook.com/PhuKienDienThoai41/"><i class="fa fa-facebook"> @@PhuKienDienThoai41</i></a></li>
+								<!-- <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>					 -->
+								<li>
+									<a>
+										<i class="fa fa-share-alt" id="shareBtn" data-share="true" data-layout="button_count"> Chia sẻ Trang</i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<a href="/"><img style="max-height:100px; width:auto" src="~/images/components/logo.png" alt="Phụ Kiện Điện Thoại" /></a>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+                            @await Html.PartialAsync("_LoginPartial")
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header-middle-->
+	
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="mainmenu pull-left">
+							<ul class="nav navbar-nav collapse navbar-collapse">
+								<li><a is-active-route asp-controller="Home" asp-area="" asp-action="index">Trang chủ</a></li>
+								<li><a is-active-route asp-controller="Home" asp-area="" asp-action="Contact">Liên hệ</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3">
+                        <form asp-controller="TimKiem" asp-area="" asp-action="Search" method="get">
+                            <div class="search_box pull-right">
+                                <input type="text" placeholder="Tìm kiếm..." name="keyword"/>
+                            </div>
+                        </form>
+					</div>
+				</div>
+			</div>
+		</div><!--/header-bottom-->
+	</header><!--/header-->
+	
+   	@RenderBody()
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+	<script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/js/jquery.scrollUp.min.js"></script>
+    <script src="~/js/jquery.prettyPhoto.js"></script>
+	<script src="~/js/facebook.js"></script>
+	<script src="~/js/dropin.min.js"></script>
+    <script src="~/js/main.js"></script>
+	<script>
+		$('input[type=date]').datepicker({ dateFormat: 'yy-mm-dd' }).val();
+	</script>
+
+    @RenderSection("Scripts", required: false)
+	<script>
+	document.getElementById('shareBtn').onclick = function() {
+		FB.ui({
+			method: 'share',
+			display: 'popup',
+			href: 'http://@Context.Request.Host@Context.Request.Path'
+				
+		}, function(response){});
+	}
+	</script>
+</body>
+</html>

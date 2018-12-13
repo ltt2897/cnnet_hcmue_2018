@@ -1,0 +1,37 @@
+@using PhuKienDienThoai.Models
+@model List<MatHang>
+<h2 class="title text-center"><span class="text-block">Mặt hàng</span></h2>
+<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a asp-action="SanPhamGiamGia" asp-controller="DanhMuc">Sản phẩm giảm giá</a></h4>
+        </div>
+    </div>
+    @foreach(var item in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordian" href="#sidebar_MatHang_@item.Id">
+                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                        @item.TenMatHang
+                    </a>
+                </h4>
+            </div>
+            <div id="sidebar_MatHang_@item.Id" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul>
+                      
+                        @{
+                            var DanhMucGroup = item.DanhMuces.Where(p => p.MatHangId == item.Id).OrderBy(p => p.TenDanhMuc);
+                            foreach(var danhmuc in DanhMucGroup)
+                            {
+                                <li><a asp-action="Index" asp-route-id="@danhmuc.Id" asp-controller="DanhMuc">@danhmuc.TenDanhMuc</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>
