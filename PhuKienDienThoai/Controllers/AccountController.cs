@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -7,9 +9,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using PhuKienDienThoai.Models;
 using PhuKienDienThoai.Models.AccountViewModels;
 using PhuKienDienThoai.Services;
+using PhuKienDienThoai.Configurations;
 
 namespace PhuKienDienThoai.Controllers
 {
@@ -448,5 +452,65 @@ namespace PhuKienDienThoai.Controllers
 
         }
         #endregion
+
+        #region Recaptcha
+        public static bool ReCaptchaPassed(string gRecaptchaResponse, string secret, ILogger logger)
+        {
+            HttpClient httpClient = new HttpClient();
+            var res = httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={gRecaptchaResponse}").Result;
+            if (res.StatusCode != HttpStatusCode.OK)
+            {
+                logger.LogError("Error while sending request to ReCaptcha");
+                return false;
+            }
+
+            string JSONres = res.Content.ReadAsStringAsync().Result;
+            dynamic JSONdata = JObject.Parse(JSONres);
+            if (JSONdata.success != "true")
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        [HttpGet("Home/Feedback")]
+        [AllowAnonymous]
+        public IActionResult Feedback()
+        {
+            // get reCAPTHCA key from appsettings.json
+            ViewData["ReCaptchaKey"] = Configurations.GetSection("GoogleReCaptcha:key").Value;
+            return View();
+        }
+
+        [HttpPost("Home/Feedback/")]
+        [AllowAnonymous]
+        public IActionResult Feedback(SomeModel model)
+        {
+            // get reCAPTHCA key from appsettings.json
+            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
+
+            if (ModelState.IsValid)
+            {
+                if (!ReCaptchaPassed(
+                    Request.Form["g-recaptcha-response"], // that's how you get it from the Request object
+                    _configuration.GetSection("GoogleReCaptcha:secret").Value,
+                    _logger
+                    ))
+                {
+                    ModelState.AddModelError(string.Empty, "You failed the CAPTCHA, stupid robot. Go play some 1x1 on SFs instead.");
+                    return View(model);
+                }
+
+                // do your stuff with the model
+                // ...
+
+                return View();
+            }
+
+            return View(model);
+        }
+        #endregion
+
     }
 }
