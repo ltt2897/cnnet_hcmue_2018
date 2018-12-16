@@ -15,11 +15,11 @@
                 <label asp-for="HoTen"></label>
                 <input id="HoTen" asp-for="HoTen" class="form-control">
             </div>
-            <div class="row"> 
+            <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="PhoneNumber"></label>
                     <input id="PhoneNumber" asp-for="PhoneNumber" class="form-control">
-                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="GioiTinh"></label>
@@ -30,14 +30,14 @@
                 </div>
             </div>
             <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="NgaySinh"></label> (tháng/ngày/năm)
-                    <input asp-for="NgaySinh" class="form-control" type="date" />
+                    <label asp-for="NgaySinh"></label> (ngày/tháng/năm)
+                    <input asp-for="NgaySinh" class="form-control" type="date" value="dd/mm/yyyy" />
                     <span asp-validation-for="NgaySinh" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
@@ -58,7 +58,17 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
-            <button type="submit" id="btnFromsubmit" class="btn btn-default">Đăng kí</button>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
+                </div>
+            </div>
+
+            <button type="submit" id="btnFromsubmit" class="btn btn-primary">Đăng kí</button>
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

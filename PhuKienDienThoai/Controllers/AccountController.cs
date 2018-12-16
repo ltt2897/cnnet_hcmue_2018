@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 using PhuKienDienThoai.Models;
 using PhuKienDienThoai.Models.AccountViewModels;
 using PhuKienDienThoai.Services;
-using PhuKienDienThoai.Configurations;
+using Microsoft.Extensions.Configuration;
 
 namespace PhuKienDienThoai.Controllers
 {
@@ -26,18 +26,22 @@ namespace PhuKienDienThoai.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         readonly IHostingEnvironment _env;
+        readonly IConfiguration _configuration;
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
-            IHostingEnvironment env)
+            IHostingEnvironment env,
+            IConfiguration conf)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _env = env;
+            _configuration = conf;
         }
 
         [TempData]
@@ -50,6 +54,8 @@ namespace PhuKienDienThoai.Controllers
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+            // Add repcaptcha key
+            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -59,9 +65,23 @@ namespace PhuKienDienThoai.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            // Add repcaptcha key
+            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
+                if (Request.Form["g-recaptcha-response"] == "")
+                {
+                    ModelState.AddModelError(string.Empty, "Vui lòng xác nhận bạn không phải là người máy.");
+                    return View(model);
+                }
+                else if (!ReCaptchaPassed(Request.Form["g-recaptcha-response"], _configuration.GetSection("GoogleReCaptcha:secret").Value, _logger))
+                {
+                    ModelState.AddModelError(string.Empty, "Bạn đã thất bại xác nhận captcha. Vui lòng thử lại.");
+                    return View(model);
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -81,7 +101,7 @@ namespace PhuKienDienThoai.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Thông tin đăng nhập không hợp lệ.");
                     return View(model);
                 }
             }
@@ -211,8 +231,10 @@ namespace PhuKienDienThoai.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
+            // Add repcaptcha key
+            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(new RegisterViewModel());
         }
 
         [HttpPost]
@@ -220,9 +242,22 @@ namespace PhuKienDienThoai.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
+            // Add repcaptcha key
+            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                if (Request.Form["g-recaptcha-response"] == "")
+                {
+                    ModelState.AddModelError(string.Empty, "Vui lòng xác nhận bạn không phải là người máy.");
+                    return View(model);
+                }
+                else if (!ReCaptchaPassed(Request.Form["g-recaptcha-response"], _configuration.GetSection("GoogleReCaptcha:secret").Value, _logger))
+                {
+                    ModelState.AddModelError(string.Empty, "Bạn đã thất bại xác nhận captcha. Vui lòng thử lại.");
+                    return View(model);
+                }
+
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
@@ -254,6 +289,7 @@ namespace PhuKienDienThoai.Controllers
                     //các lần chạy sau sẽ là user
                     await _userManager.AddToRoleAsync(user, "User");
 
+                    _logger.LogInformation("User {UserName} registered.", user.UserName);
                     return RedirectToLocal(returnUrl);
 
                 }
@@ -361,15 +397,35 @@ namespace PhuKienDienThoai.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ForgotPassword() => View();
+        public IActionResult ForgotPassword()
+        {
+            // Add repcaptcha key
+            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
+
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            // Add repcaptcha key
+            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
+
             if (ModelState.IsValid)
             {
+                if (Request.Form["g-recaptcha-response"] == "")
+                {
+                    ModelState.AddModelError(string.Empty, "Vui lòng xác nhận bạn không phải là người máy.");
+                    return View(model);
+                }
+                else if (!ReCaptchaPassed(Request.Form["g-recaptcha-response"], _configuration.GetSection("GoogleReCaptcha:secret").Value, _logger))
+                {
+                    ModelState.AddModelError(string.Empty, "Bạn đã thất bại xác nhận captcha. Vui lòng thử lại.");
+                    return View(model);
+                }
+
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
 
@@ -472,43 +528,6 @@ namespace PhuKienDienThoai.Controllers
             }
 
             return true;
-        }
-
-        [HttpGet("Home/Feedback")]
-        [AllowAnonymous]
-        public IActionResult Feedback()
-        {
-            // get reCAPTHCA key from appsettings.json
-            ViewData["ReCaptchaKey"] = Configurations.GetSection("GoogleReCaptcha:key").Value;
-            return View();
-        }
-
-        [HttpPost("Home/Feedback/")]
-        [AllowAnonymous]
-        public IActionResult Feedback(SomeModel model)
-        {
-            // get reCAPTHCA key from appsettings.json
-            ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
-
-            if (ModelState.IsValid)
-            {
-                if (!ReCaptchaPassed(
-                    Request.Form["g-recaptcha-response"], // that's how you get it from the Request object
-                    _configuration.GetSection("GoogleReCaptcha:secret").Value,
-                    _logger
-                    ))
-                {
-                    ModelState.AddModelError(string.Empty, "You failed the CAPTCHA, stupid robot. Go play some 1x1 on SFs instead.");
-                    return View(model);
-                }
-
-                // do your stuff with the model
-                // ...
-
-                return View();
-            }
-
-            return View(model);
         }
         #endregion
 
