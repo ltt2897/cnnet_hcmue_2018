@@ -30,7 +30,6 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewData["TagName"] = "QuanLyMatHang";
             var model = await context.MatHang.Include(x=>x.SanPhames).ToListAsync();
             return View(model);
         }

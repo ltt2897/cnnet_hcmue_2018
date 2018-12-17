@@ -23,7 +23,6 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
 
         public async Task< IActionResult> Index()
         {
-            ViewData["TagName"] = "QuanLyDongDienThoai";
             var model = await context.DongDienThoai.Include(s=>s.SanPhames).ToListAsync();
             return View(model);
         }

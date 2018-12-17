@@ -46,7 +46,7 @@
                             <select asp-for="ChucVu" id="ChucVu" class="form-control">
                                 @foreach(var item in ViewBag.ChucVu)
                                 {
-                                    <option value="@item.Name" @((item.Name == Model.ChucVu)?"checked":"")>@item.Name</option>
+                                    <option value="@item.Name" @(item.Name == Model.ChucVu ? "checked" : "")>@item.Name</option>
                                 }
                             </select>
                         </div>

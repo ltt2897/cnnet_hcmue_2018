@@ -27,7 +27,6 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            ViewData["TagName"] = "QuanLySanPham";
             var model = context.SanPham
                             .Include(x => x.DongDienThoai)
                             .Include(x => x.ThuongHieu);

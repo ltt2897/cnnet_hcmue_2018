@@ -28,10 +28,10 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
             userManager = _usermanager;
             roleManager = _roleManager;
         }
+
         [Route("[area]")]
         public async Task<IActionResult> DashBoard()
         {
-            ViewData["TagName"] = "Dashboard";
             var _dashBoard = new DashBoardViewModel
             {
                 TongSoLuongSanPham = context.SanPham.Count(),

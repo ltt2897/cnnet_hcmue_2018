@@ -27,7 +27,6 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
         #region index
         public async Task<IActionResult> Index()
         {
-            ViewData["TagName"] = "QuanLyThuongHieu";
             var model = await context.ThuongHieu.Include(s => s.SanPhames).ToListAsync();
             return View(model);
         }

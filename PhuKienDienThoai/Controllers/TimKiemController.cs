@@ -14,8 +14,8 @@ namespace PhuKienDienThoai.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> Search(string keyword, int? page)
         {
-            ViewData["HeadTitle"] = "search page";
-            ViewData["Title"] = "Kết quả tìm kiếm với " + keyword;
+            ViewData["HeadTitle"] = "Tìm kiếm: " + keyword + " - Phụ Kiện Điện Thoại Chính Hãng";
+            ViewData["Title"] = "Kết quả tìm kiếm với từ khoá \"" + keyword + "\"";
             var KetQuaTimKiem = await context.SanPham
                                             .Where(sanpham => sanpham.TenSanPham.Contains(keyword) |
                                                             sanpham.DongDienThoai.TenDongDienThoai.Contains(keyword) |

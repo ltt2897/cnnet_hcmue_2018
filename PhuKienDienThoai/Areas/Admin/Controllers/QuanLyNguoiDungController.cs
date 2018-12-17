@@ -32,7 +32,6 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
         #region View Danh sách người dùng
         public async Task<IActionResult> Index()
         {
-            ViewData["TagName"] = "QuanLyNguoiDung";
             var data = await DanhSachNguoiDung();
             return View(data);
         }
@@ -89,7 +88,7 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
             await usermanager.AddToRoleAsync(newuser, model.ChucVu);
             return RedirectToAction(
                 actionName: "DanhSanPham",
-                controllerName: "QuanLyNhanVien"
+                controllerName: "QuanLyNguoiDung"
             );
         }
         #endregion
@@ -114,6 +113,7 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+    
             var getuser = await context.Users.Where(data => data.Email == email).FirstOrDefaultAsync();
             ViewBag.ChucVu = context.Roles;
             var model = new SuaNguoiDungViewModel
@@ -126,7 +126,6 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
                 NgaySinh = getuser.NgaySinh,
                 PhoneNumber = getuser.PhoneNumber
             };
-
             return View(model);
         }
         #endregion

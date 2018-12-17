@@ -5,39 +5,63 @@
 @using PhuKienDienThoai.Controllers
 @*@using X.PagedList;*@
 @{
-    ViewData["HeadTitle"] = "PhuKienDienThoai.com - Phụ Kiện Điện Thoại Chính Hãng";
-    ViewData["Title"] = "Phụ kiện vừa cập nhật";
+    @if (ViewData["HeadTitle"] == null)
+    {
+        ViewData["HeadTitle"] = "PhuKienDienThoai.com - Phụ Kiện Điện Thoại Chính Hãng";
+    }
+    @if (ViewData["Title"] == null)
+    {
+        ViewData["Title"] = "Phụ kiện mới";
+    }
 }
-<div class="features_items"><!--features_items-->
+
+<div class="features_items">
+    <!--features_items-->
     <h2 class="title text-center"><span class="text-block">@ViewData["Title"]</span></h2>
     <div class="row">
-    @foreach(var item in Model)
-    {
-        <div class="col-sm-4" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="~/images/sanpham/@item.HinhAnh" style="height: 100%; width:auto; max-height:130px" alt="" />
-                        <h2>@((item.DonGia*(100 - item.PhanTramGiamGia)/100).ToString("#,0"))Đ</h2>
-                        <p title="@item.TenSanPham">@item.TenSanPham</p>
+        @if (Model.Count > 0)
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-4" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="~/images/sanpham/@item.HinhAnh" style="height: 100%; width:auto; max-height:130px" alt="" />
+                                <h2>@((item.DonGia * (100 - item.PhanTramGiamGia) / 100).ToString("#,0"))Đ</h2>
+                                <p title="@item.TenSanPham">@item.TenSanPham</p>
+                            </div>
+                        </div>
+                        <div class="choose">
+                            <ul class="nav nav-pills nav-justified">
+                                <li><a asp-controller="Wishlist" asp-area="Users" asp-action="ThemVaoWishList" data-id="@item.id" class="ThemVaoWishList"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                                <li><a asp-controller="SanPham" asp-action="Index" asp-route-id="@item.id" asp-route-TenSanPham="@(SlugController.GenerateSlug(item.TenSanPham))"><i class="fa fa-info"></i>Chi tiết sản phẩm</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a asp-controller="Wishlist" asp-area="Users" asp-action="ThemVaoWishList" data-id="@item.id" class="ThemVaoWishList"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
-                        <li><a asp-controller="SanPham" asp-action="Index" asp-route-id="@item.id" asp-route-TenSanPham="@(SlugController.GenerateSlug(item.TenSanPham))"><i class="fa fa-info"></i>Chi tiết sản phẩm</a></li>
-                    </ul>
+            }
+        }
+        else
+        {
+            <div class="col">
+                <div class="text-center">
+                    Không có sản phẩm nào liên quan
                 </div>
-            </div>
-        </div>
-    }
+            </div> 
+        }
+
     </div>
 </div><!--features_items-->
 @*Html.PagedListPager( myList, page => Url.Action("Index", new { page = page}) )*@
-<div class="text-right">
-    @Html.PagedListPager( (IPagedList)Model, page => Url.Action("Index", new { page }) )
-</div>
-@if(TempData["Message"]!=null)
+@if (Model.Count > 0)
+{
+    <div class="text-right">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+    </div>
+}
+
+@if (TempData["Message"] != null)
 {
     <script>
         alert("@Html.Raw(TempData["Message"])");
@@ -46,19 +70,20 @@
 
 <!-- Load Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 <!-- Your customer chat code -->
 <div class="fb-customerchat"
-  attribution=setup_tool
-  page_id="2272096263019231"
-  theme_color="#ff7e29">
+     attribution=setup_tool
+     page_id="2272096263019231"
+     theme_color="#ff7e29">
 </div>
 
 <!-- Subiz Chat -->

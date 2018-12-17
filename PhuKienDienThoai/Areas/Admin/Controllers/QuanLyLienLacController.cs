@@ -25,7 +25,6 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
         public IActionResult Index()
         {
             ViewData["HeadTitle"] = "Quản lý liên lạc";
-            ViewData["TagName"] = "QuanLyLienLac";
             return View();
         }
 

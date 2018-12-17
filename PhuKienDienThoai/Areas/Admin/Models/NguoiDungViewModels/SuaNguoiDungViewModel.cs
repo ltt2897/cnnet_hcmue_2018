@@ -9,7 +9,7 @@ namespace PhuKienDienThoai.Areas.Admin.Models.NguoiDungViewModels
         [Display(Name = "Họ tên")]
         public string HoTen { get; set; }
         [Required]
-        [Display(Name = "ngày sinh")]
+        [Display(Name = "Ngày sinh")]
         [DataType(DataType.Date)]
         public DateTime NgaySinh { get; set; }
         public bool GioiTinh { get; set; }

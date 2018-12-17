@@ -258,18 +258,18 @@ a#scrollUp i{
 .search_box input {
   background: #F0F0E9;
   border: medium none;
-  color: #B2B2B2;
+  color: #000000;
   font-family: 'roboto';
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 13px;
+  font-weight: 500;
   height: 35px;
   outline: medium none;
   padding-left: 10px;
-  width: 155px;
+  width: 350px;
   position: relative;
   background-image: url(/images/components/searchicon.png);
   background-repeat: no-repeat;
-  background-position: 130px;
+  background-position: 328px;
 }
 
 /*  Dropdown menu*/
