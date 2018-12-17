@@ -10,7 +10,7 @@
         <form id="frm_register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
             <h4>Đăng kí tài khoản thành viên mới</h4>
             <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="HoTen"></label>
                 <input id="HoTen" asp-for="HoTen" class="form-control">
@@ -27,6 +27,7 @@
                         <option value="true" selected>Nam</option>
                         <option value="false">Nữ</option>
                     </select>
+                    <span asp-validation-for="GioiTinh" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -61,6 +62,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
+
                 </div>
             </div>
 

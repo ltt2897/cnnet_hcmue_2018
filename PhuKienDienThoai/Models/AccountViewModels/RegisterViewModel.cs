@@ -9,7 +9,7 @@ namespace PhuKienDienThoai.Models.AccountViewModels
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Email không được để trống")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Dữ liệu Email không hợp lệ")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -38,8 +38,9 @@ namespace PhuKienDienThoai.Models.AccountViewModels
         [Display(Name="Ngày sinh")]
         public DateTime NgaySinh { get; set; }
 
-        [Display(Name="Giới tính")]
-        public bool GioiTinh { get; set; }
+        [Required(ErrorMessage = "Giới tính là bắt buộc")]
+        [Display(Name = "Giới tính")]
+        public bool GioiTinh { get; set; } = true;
         
         [Display(Name="Địa chỉ")]
         [Required(ErrorMessage = "Địa chỉ không được để trống")]

@@ -8,13 +8,13 @@ namespace PhuKienDienThoai.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email không được để trống")]
+        [EmailAddress(ErrorMessage = "Dữ liệu Email không hợp lệ")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
         [Display(Name = "Mật khẩu")]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password, ErrorMessage = "Dữ liệu Mật khẩu không hợp lệ")]
         public string Password { get; set; }
 
         [Display(Name = "Ghi nhớ đăng nhập lần sau")]

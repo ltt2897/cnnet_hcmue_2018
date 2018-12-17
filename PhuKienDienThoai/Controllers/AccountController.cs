@@ -57,6 +57,7 @@ namespace PhuKienDienThoai.Controllers
             // Add repcaptcha key
             ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
             ViewData["ReturnUrl"] = returnUrl;
+
             return View();
         }
 
@@ -78,7 +79,7 @@ namespace PhuKienDienThoai.Controllers
                 }
                 else if (!ReCaptchaPassed(Request.Form["g-recaptcha-response"], _configuration.GetSection("GoogleReCaptcha:secret").Value, _logger))
                 {
-                    ModelState.AddModelError(string.Empty, "Bạn đã thất bại xác nhận captcha. Vui lòng thử lại.");
+                    ModelState.AddModelError(string.Empty, "Xác nhận captcha thất bại. Vui lòng thử lại.");
                     return View(model);
                 }
 
@@ -234,6 +235,7 @@ namespace PhuKienDienThoai.Controllers
             // Add repcaptcha key
             ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
             ViewData["ReturnUrl"] = returnUrl;
+
             return View(new RegisterViewModel());
         }
 
@@ -245,6 +247,7 @@ namespace PhuKienDienThoai.Controllers
             // Add repcaptcha key
             ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
                 if (Request.Form["g-recaptcha-response"] == "")
@@ -254,7 +257,7 @@ namespace PhuKienDienThoai.Controllers
                 }
                 else if (!ReCaptchaPassed(Request.Form["g-recaptcha-response"], _configuration.GetSection("GoogleReCaptcha:secret").Value, _logger))
                 {
-                    ModelState.AddModelError(string.Empty, "Bạn đã thất bại xác nhận captcha. Vui lòng thử lại.");
+                    ModelState.AddModelError(string.Empty, "Xác nhận captcha thất bại. Vui lòng thử lại.");
                     return View(model);
                 }
 
@@ -401,7 +404,6 @@ namespace PhuKienDienThoai.Controllers
         {
             // Add repcaptcha key
             ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
-
             return View();
         }
 
@@ -412,7 +414,6 @@ namespace PhuKienDienThoai.Controllers
         {
             // Add repcaptcha key
             ViewData["ReCaptchaKey"] = _configuration.GetSection("GoogleReCaptcha:key").Value;
-
             if (ModelState.IsValid)
             {
                 if (Request.Form["g-recaptcha-response"] == "")
