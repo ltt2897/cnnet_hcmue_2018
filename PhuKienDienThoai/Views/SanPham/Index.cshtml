@@ -12,38 +12,37 @@
     <div class="product-details"><!--product-details-->
         <div class="col-sm-5">
             <div class="view-product">
-                <img src="~/images/SanPham/@Model.HinhAnh" alt="" />
+                <img src="~/images/SanPham/@Model.HinhAnh" title="Ảnh sản phẩm của @Model.TenSanPham" alt="" />
             </div>
         </div>
         <div class="col-sm-7">
             <div class="product-information"><!--/product-information-->
                 <h2>@Model.TenSanPham</h2>
                 <p>ID Sản phẩm: @Model.id</p>
-                <span>
-                    <form id="frmDatHang" asp-action="ThemVaoGioHang" asp-controller="GioHang" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
-                        @if(isGiamGia)
-                        {
-                            <span style="text-decoration: line-through;">@Model.DonGia.ToString("#,0")Đ</span>
-                            <span>@((Model.DonGia*(100-Model.PhanTramGiamGia)/100).ToString("#,0"))Đ</span><br>
-                        }
-                        else
-                        {
-                            <span>@Model.DonGia.ToString("#,0")Đ</span>
-                        }
-                        
-                        <input type="hidden" name="SanPhamId" value="@Model.id">
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <label>Số lượng:
-                                <input type="text" value="1" name="SoLuong" required="required" class="Quantity"/>
-                            </label>
-                            <button type="submit" class="btn btn-fefault cart">
-                                <i class="fa fa-shopping-cart"></i>
-                                Đặt Hàng
-                            </button>
-                        }
-                    </form>
-                </span>
+                <form id="frmDatHang" asp-action="ThemVaoGioHang" asp-controller="GioHang" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
+                    @if (isGiamGia)
+                    {
+                        <span class="price">@((Model.DonGia * (100 - Model.PhanTramGiamGia) / 100).ToString("#,0"))Đ</span>
+                        <span class="old-price">@Model.DonGia.ToString("#,0")Đ</span>
+                    }
+                    else
+                    {
+                        <span class="price">@Model.DonGia.ToString("#,0")Đ</span>
+                    }
+                    <div class="clearfix"></div>
+                    <input type="hidden" name="SanPhamId" value="@Model.id">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <label>
+                            Số lượng:
+                            <input type="text" value="1" name="SoLuong" required="required" class="Quantity" />
+                        </label>
+                        <button type="submit" class="btn btn-fefault cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            Đặt Hàng
+                        </button>
+                    }
+                </form><br />
                 <p><b>Dòng điện thoại:</b> @Model.DongDienThoai.TenDongDienThoai</p>
                 <p><b>Thương hiệu:</b> @Model.ThuongHieu.TenThuongHieu</p>
                 <p><b>Mặt hàng:</b> @Model.MatHang.TenMatHang</p>
@@ -131,7 +130,7 @@ else
         }
         $(function()
         {
-            $(".owl-carousel").owlCarousel({items: 5});
+            $(".owl-carousel").owlCarousel({ items: 4 });
             $(".Quantity").keypress(e =>{if(e.keyCode < 48 || e.keyCode > 57)e.preventDefault()});
             $("#frmDatHang").submit(function(e)
             {

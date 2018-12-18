@@ -6,3 +6,28 @@ h2 span.text-block {
     z-index: 5;
     background-color: #fff;
 }
+
+.giam-percent {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    padding: 1px 6px 1px 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    background: #e11b1e;
+    border: solid 1px #e11b1e;
+    border-radius: 100px;
+    line-height: 15px;
+    display: block;
+}
+
+span.text-giam-percent {
+    position: relative;
+    white-space: normal;
+    top: 6px;
+}
