@@ -1,0 +1,58 @@
+﻿@using PhuKienDienThoai.Controllers
+
+<div class="features_items">
+    <!--features_items-->
+    <h2 class="title text-center"><span class="text-block">@ViewData["Title"]</span></h2>
+    <div class="row">
+        @if (Model.Count > 0)
+        {
+            @foreach (var item in Model)
+            {
+                var isGiamGia = (item.PhanTramGiamGia > 0) ? true : false;
+                <div class="col-sm-4" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo">
+                                @if (isGiamGia)
+                                {
+                                    <div class="giam-percent">
+                                        <span class="text-giam-percent">Giảm @(item.PhanTramGiamGia)%</span>
+                                    </div>
+                                }
+                                <div class="imageinfo text-center">
+                                    <img src="~/images/sanpham/@item.HinhAnh" title="Ảnh sản phẩm của @item.TenSanPham" style="height: 100%; width:auto; max-height:130px" alt="" />
+                                </div>
+                                <div class="priceinfo">
+                                    @if (isGiamGia)
+                                    {
+                                        <span class="price">@((item.DonGia * (100 - item.PhanTramGiamGia) / 100).ToString("#,0"))Đ</span><span class="old-price">@item.DonGia.ToString("#,0")Đ</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="price">@item.DonGia.ToString("#,0")Đ</span>
+                                    }
+                                </div>
+                                <p class="nameinfo" title="@item.TenSanPham">@item.TenSanPham</p>
+                            </div>
+                        </div>
+                        <div class="choose">
+                            <ul class="nav nav-pills nav-justified">
+                                <li><a asp-controller="Wishlist" asp-area="Users" asp-action="ThemVaoWishList" data-id="@item.id" class="ThemVaoWishList"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                                <li><a asp-controller="SanPham" asp-action="Index" asp-route-id="@item.id" asp-route-TenSanPham="@(SlugController.GenerateSlug(item.TenSanPham))"><i class="fa fa-info"></i>Chi tiết sản phẩm</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col">
+                <div class="text-center">
+                    Không có sản phẩm nào liên quan
+                </div>
+            </div>
+        }
+
+    </div>
+</div><!--features_items-->

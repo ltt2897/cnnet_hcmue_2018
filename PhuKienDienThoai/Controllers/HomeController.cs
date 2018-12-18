@@ -8,6 +8,7 @@ using PhuKienDienThoai.Data;
 using PhuKienDienThoai.Models;
 using PhuKienDienThoai.Models.ContactViewModels;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PhuKienDienThoai.Controllers
 {
@@ -19,13 +20,19 @@ namespace PhuKienDienThoai.Controllers
         ///<return>
         ///Returns 12 items in database SanPham
         ///</return>
-        public async Task<IActionResult> Index(int? page)
+        public IActionResult Index() => View();
+
+        [AllowAnonymous]
+        [Route("tat-ca-san-pham.html")]
+        public async Task<IActionResult> AllProducts(int? page)
         {
             var ListSanPham = await context.SanPham.ToListAsync();
             var model = ListSanPham.ToPagedList(page ?? 1, 9);
             // return View(ListSanPham);
             return View(model);
         }
+
+        [Route("lien-he.html")]
         public IActionResult Contact() => View();
 
         ///<summary>

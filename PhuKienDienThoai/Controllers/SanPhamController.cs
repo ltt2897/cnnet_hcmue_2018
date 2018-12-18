@@ -22,7 +22,7 @@ namespace PhuKienDienThoai.Controllers
         /*
         route Tensanpham chủ yếu làm cho đường dẫn trong đẹp hơn và cầu kỳ hơn chứ tên sản phẩm cũng không có chức năng gì khác
          */
-        [HttpGet("[Controller]/{TenSanPham}-{id}.html")]
+        [HttpGet("{TenSanPham}-{id}.html")]
         public async Task<IActionResult> Index(int id, string TenSanPham)
         {
             var sanpham = await context.SanPham

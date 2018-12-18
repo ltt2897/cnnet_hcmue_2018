@@ -780,6 +780,7 @@ h2.title:before {
 
 .features_items {
     position: relative;
+    margin-bottom: 20px;
 }
 
 h2.title {
