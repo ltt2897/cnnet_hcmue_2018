@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
                 SoLuong = sanpham.SoLuong,
                 MauSac = sanpham.MauSac,
                 HinhAnh = sanpham.HinhAnh,
-                PhanTramGiamGia = sanpham.PhanTramGiamGia,
+                GiaCu = sanpham.GiaCu,
                 MatHangs = await context.MatHang.ToListAsync(),
                 DanhMucs = await context.DanhMuc.ToListAsync(),
                 ThuongHieus = await context.ThuongHieu.ToListAsync(),
@@ -91,7 +92,8 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
             sanpham.DongDienThoaiId = model.DongDienThoaiId;
             sanpham.SoLuong = model.SoLuong;
             sanpham.MauSac = model.MauSac;
-            sanpham.PhanTramGiamGia = model.PhanTramGiamGia;
+            sanpham.GiaCu = model.GiaCu;
+            sanpham.PhanTramGiamGia = sanpham.GiaCu == 0 ? 0 : Math.Round((double)(sanpham.GiaCu - sanpham.DonGia) / sanpham.GiaCu * 100, 3);
             sanpham.TenSanPham = model.TenSanPham;
 
             //nếu muốn upload hình ảnh mới thì
@@ -142,7 +144,8 @@ namespace PhuKienDienThoai.Areas.Admin.Controllers
                 MauSac = model.MauSac,
                 DinhDang = model.DinhDang,
                 DonGia = model.DonGia,
-                PhanTramGiamGia = model.PhanTramGiamGia,
+                GiaCu = model.GiaCu,
+                PhanTramGiamGia = model.GiaCu == 0 ? 0 : Math.Round((double)(model.GiaCu - model.DonGia) / model.GiaCu * 100, 3),
                 MatHangId = model.MatHangId,
                 DongDienThoaiId = model.DongDienThoaiId,
                 DanhMucId = model.DanhMucId,

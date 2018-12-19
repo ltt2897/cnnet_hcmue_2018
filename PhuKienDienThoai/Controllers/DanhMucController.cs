@@ -37,7 +37,7 @@ namespace PhuKienDienThoai.Controllers
         [Route("[Controller]/[Action]")]
         public async Task<IActionResult> SanPhamGiamGia(int? page)
         {
-            var data = await context.SanPham.Where(x => x.PhanTramGiamGia != 0)
+            var data = await context.SanPham.Where(x => x.GiaCu != 0)
                                         .ToListAsync();
             ViewData["HeadTitle"] = "Sản phẩm giảm giá";
             ViewData["Title"] = "Sản phẩm giảm giá";

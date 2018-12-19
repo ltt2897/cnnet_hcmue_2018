@@ -98,7 +98,7 @@
     <script>
     $(function()
     {
-        var datatable = $("#tb_DongDienThoai").DataTable();
+        var datatable = $("#tb_DongDienThoai").dataTable({"lengthMenu": [ 25, 50, 75, 100 ]});
         $("#tb_DongDienThoai").on("click",".btn-editDongDienThoai", function(e)
         {
             e.preventDefault();

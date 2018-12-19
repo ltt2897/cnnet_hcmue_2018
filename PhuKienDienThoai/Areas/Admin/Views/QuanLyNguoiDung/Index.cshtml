@@ -73,7 +73,7 @@
     <script>
     $(function()
     {
-       $("#tb_NhanVien").dataTable();
+       $("#tb_NhanVien").dataTable({"lengthMenu": [ 25, 50, 75, 100 ]});
         @if(ViewData["Message"]!=null)
         {
             @:alert("@ViewData["Message"]");

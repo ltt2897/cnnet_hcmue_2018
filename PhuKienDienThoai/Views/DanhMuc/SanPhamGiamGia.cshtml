@@ -14,7 +14,7 @@
                 <div class="single-products">
                     <div class="productinfo text-center">
                         <img src="~/images/SanPham/@item.HinhAnh" style="height: 100%; width:auto; max-height:130px" alt="" />
-                        <h2>@((item.DonGia*(100 - item.PhanTramGiamGia)/100).ToString("#,0"))Đ</h2>
+                        <h2>@(item.GiaCu.ToString("#,0"))Đ</h2>
                         <p title="@item.TenSanPham">@item.TenSanPham</p>
                     </div>
                 </div>
