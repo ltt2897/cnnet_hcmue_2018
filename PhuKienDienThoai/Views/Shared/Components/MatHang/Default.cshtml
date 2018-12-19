@@ -2,6 +2,17 @@
 @using PhuKienDienThoai.Controllers
 
 @model List<MatHang>
+@{ 
+    if (ViewData["ActiveMatHang"] == null)
+    {
+        ViewData["ActiveMatHang"] = "";
+    }
+    if (ViewData["ActiveDanhMuc"] == null)
+    {
+        ViewData["ActiveDanhMuc"] = "";
+    }
+}
+
 <h2 class="title text-center"><span class="text-block">Mặt hàng</span></h2>
 <div class="panel-group category-products" id="accordian">
     <!--category-productsr-->
@@ -21,16 +32,14 @@
                     </a>
                 </h4>
             </div>
-            <div id="sidebar_MatHang_@item.Id" class="panel-collapse collapse">
+            <div id="sidebar_MatHang_@item.Id" class="panel-collapse collapse @(item.TenMatHang == ViewData["ActiveMatHang"].ToString() ? "in" : "")">
                 <div class="panel-body">
                     <ul>
                         @{
                             var DanhMucGroup = item.DanhMuces.Where(p => p.MatHangId == item.Id).OrderBy(p => p.TenDanhMuc);
                             foreach (var danhmuc in DanhMucGroup)
                             {
-                                <li @(ViewData["ActiveDanhMuc"] != null && ViewData["ActiveMatHang"] != null &&
-                                        danhmuc.TenDanhMuc == ViewData["ActiveDanhMuc"].ToString() && 
-                                        item.TenMatHang == ViewData["ActiveMatHang"].ToString() ? "class=active" : "")>
+                                <li @(danhmuc.TenDanhMuc == ViewData["ActiveDanhMuc"].ToString() && item.TenMatHang == ViewData["ActiveMatHang"].ToString() ? "class=active" : "")>
                                     <a asp-action="Index" asp-route-id="@danhmuc.Id" asp-route-tendanhmuc="@(SlugController.GenerateSlug(item.TenMatHang))-@(SlugController.GenerateSlug(danhmuc.TenDanhMuc))" asp-controller="DanhMuc">@danhmuc.TenDanhMuc</a>
                                 </li>
                             }

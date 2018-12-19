@@ -51,11 +51,13 @@
 	</script>
 </head>
 <body>
-	
-	<div class="fb-root"></div>
-    <header id="header"><!--header-->  
-		<div class="header_top"><!--header_top-->
-			<div class="container">
+
+    <div class="fb-root"></div>
+    <header id="header">
+        <!--header-->
+        <div class="header_top">
+            <!--header_top-->
+            <div class="container">
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="contactinfo">
@@ -87,83 +89,121 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div><!--/header_top-->
+
+        <div class="header-middle">
+            <!--header-middle-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo pull-left">
+                            <a href="/"><img style="max-height:100px; width:auto" src="~/images/components/logo.png" alt="Phụ Kiện Điện Thoại" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="shop-menu pull-right">
+                            @await Html.PartialAsync("_LoginPartial")
+                        </div>
                     </div>
                 </div>
-		</div><!--/header_top-->
-		
-		<div class="header-middle"><!--header-middle-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="/"><img style="max-height:100px; width:auto" src="~/images/components/logo.png" alt="Phụ Kiện Điện Thoại" /></a>
-						</div>
-					</div>
-					<div class="col-sm-8">
-						<div class="shop-menu pull-right">
-                            @await Html.PartialAsync("_LoginPartial")
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/header-middle-->
-	
-		<div class="header-bottom"><!--header-bottom-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-						<div class="mainmenu pull-left">
+            </div>
+        </div><!--/header-middle-->
+
+        <div class="header-bottom">
+            <!--header-bottom-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
                                 <li><a is-active-route asp-controller="home" asp-area="" asp-action="index">Trang chủ</a></li>
                                 <li><a is-active-route asp-controller="home" asp-area="" asp-action="allproducts">Tất cả sản phẩm</a></li>
                                 <li><a is-active-route asp-controller="home" asp-area="" asp-action="contact">Liên hệ</a></li>
                             </ul>
-						</div>
-					</div>
-					<div class="col-sm-3">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
                         <form asp-controller="TimKiem" asp-area="" asp-action="Search" method="get">
                             <div class="search_box pull-right">
                                 <input type="text" placeholder="Tìm kiếm sản phẩm..." name="keyword" maxlength="50" autocomplete="off" />
                             </div>
                         </form>
-					</div>
-				</div>
-			</div>
-		</div><!--/header-bottom-->
-	</header><!--/header-->
-	
-   	@RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div><!--/header-bottom-->
+    </header><!--/header-->
+
+    @RenderBody()
 
     <script src="~/lib/jquery/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-	<script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/js/jquery.scrollUp.min.js"></script>
     <script src="~/js/jquery.prettyPhoto.js"></script>
-	<script src="~/js/facebook.js"></script>
-	<script src="~/js/dropin.min.js"></script>
+    <script src="~/js/facebook.js"></script>
+    <script src="~/js/dropin.min.js"></script>
     <script src="~/js/main.js"></script>
-	<script>
-		$('input[type=date]').datepicker({ dateFormat: 'yy-mm-dd' }).val();
-	</script>
+    <script>
+        $('input[type=date]').datepicker({ dateFormat: 'yy-mm-dd' }).val();
+    </script>
 
     @RenderSection("Scripts", required: false)
-	<script>
+    <script>
 	document.getElementById('shareBtn').onclick = function() {
 		FB.ui({
 			method: 'share',
 			display: 'popup',
 			href: 'http://@Context.Request.Host@Context.Request.Path'
-				
+
 		}, function(response){});
 	}
-	</script>
+    </script>
+
+    @if (TempData["Message"] != null)
+    {
+        <script>
+        alert("@Html.Raw(TempData["Message"])");
+        </script>
+    }
+
+    <!-- MailChimp Signup Form Script -->
+    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+    <script type='text/javascript'>(function ($) { window.fnames = new Array(); window.ftypes = new Array(); fnames[0] = 'EMAIL'; ftypes[0] = 'email'; fnames[1] = 'FNAME'; ftypes[1] = 'text'; fnames[2] = 'LNAME'; ftypes[2] = 'text'; fnames[3] = 'ADDRESS'; ftypes[3] = 'address'; fnames[4] = 'PHONE'; ftypes[4] = 'phone'; fnames[5] = 'MMERGE5'; ftypes[5] = 'text'; }(jQuery)); var $mcj = jQuery.noConflict(true);</script>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Your customer chat code -->
+    <div class="fb-customerchat"
+         attribution=setup_tool
+         page_id="2272096263019231"
+         theme_color="#ff7e29">
+    </div>
+
+    <!-- Subiz Chat -->
+    <script>
+        (function (s, u, b, i, z) { u[i] = u[i] || function () { u[i].t = +new Date(); (u[i].q = u[i].q || []).push(arguments); }; z = s.createElement('script'); var zz = s.getElementsByTagName('script')[0]; z.async = 1; z.src = b; z.id = 'subiz-script'; zz.parentNode.insertBefore(z, zz); })(document, window,
+            'https://widgetv4.subiz.com/static/js/app.js', 'subiz'); subiz('setAccount', 'achizkqwrxuokbga');
+    </script>
+
 </body>
 </html>
