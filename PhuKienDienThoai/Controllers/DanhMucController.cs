@@ -17,8 +17,10 @@ namespace PhuKienDienThoai.Controllers
         }
         ApplicationDbContext context;
         public DanhMucController(ApplicationDbContext _context) => context = _context;
-        [HttpGet("[Controller]/{id:int}")]
-        public async Task<IActionResult> Index(int id, int? page)
+
+        [HttpGet]
+        [Route("{tendanhmuc}-{id:int}.html")]
+        public async Task<IActionResult> Index(int id, int? page, string tendanhmuc)
         {
             var data = await context.SanPham
                                     .Include(x => x.DanhMuc)
@@ -26,25 +28,28 @@ namespace PhuKienDienThoai.Controllers
                                     .ToListAsync();
             var DanhMuc = await context.DanhMuc.FindAsync(id);
             var MatHang = await context.MatHang.FindAsync(DanhMuc.MatHangId);
-            ViewData["SubTitle"] = MatHang.TenMatHang;
-            ViewData["HeadTitle"] = DanhMuc.TenDanhMuc;
-            ViewData["Title"] = ViewData["SubTitle"] + " cho sản phẩm " + ViewData["HeadTitle"];
+
+            ViewData["ActiveMatHang"] = MatHang.TenMatHang;
+            ViewData["ActiveDanhMuc"] = DanhMuc.TenDanhMuc;
+
+            ViewData["HeadTitle"] = MatHang.TenMatHang + " cho sản phẩm " + DanhMuc.TenDanhMuc;
+            ViewData["Title"] = ViewData["HeadTitle"];
 
             var model = data.ToPagedList(page ?? 1, 9);
-            return View("Views/Home/Index.cshtml", model);
-            // return View("Views/Home/Index.cshtml",data);
+            return View("Views/Home/AllProducts.cshtml", model);
         }
+
         [Route("[Controller]/[Action]")]
         public async Task<IActionResult> SanPhamGiamGia(int? page)
         {
             var data = await context.SanPham.Where(x => x.GiaCu != 0)
                                         .ToListAsync();
+
             ViewData["HeadTitle"] = "Sản phẩm giảm giá";
             ViewData["Title"] = "Sản phẩm giảm giá";
 
             var model = data.ToPagedList(page ?? 1, 9);
             return View("Views/Home/Index.cshtml", model);
-            // return View("Views/Home/Index.cshtml",data);
         }
 
     }
