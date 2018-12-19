@@ -30,11 +30,9 @@ namespace PhuKienDienThoai.Controllers
             return s.Normalize(NormalizationForm.FormC);
         }
 
-        public static int CalculateSaleOffPercent(int dongia, int giacu)
+        public static int CalculateSaleOffPercent(double phanTram)
         {
-            double t = (double) (giacu - dongia) / giacu * 100;
-
-            return (int)Math.Ceiling(t);
+            return (int)Math.Ceiling(phanTram);
         }
     }
 }
