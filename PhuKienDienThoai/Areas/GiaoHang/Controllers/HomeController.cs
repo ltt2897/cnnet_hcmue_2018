@@ -73,6 +73,7 @@ namespace PhuKienDienThoai.Areas.GiaoHang.Controllers
                                                         x.ThanhTien
                                                     })
                                                     .ToListAsync();
+
             return Json(new
             {
                 data = chitietdonhang

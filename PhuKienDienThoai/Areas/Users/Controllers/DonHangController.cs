@@ -31,9 +31,11 @@ namespace PhuKienDienThoai.Areas.Users.Controllers
             var danhsanphamDonHang = context.HoaDon.Include(x => x.ChiTietHoaDons)
                                                     .ThenInclude(x => x.SanPham)
                                                 .Where(x => x.User.Id == userId)
+                                                .OrderByDescending(x => x.NgayLapHoaDon)
                                                 .ToList();
             return View(danhsanphamDonHang.ToPagedList(page ?? 1, 5));
         }
+
         public async Task<IActionResult> ChiTietDonHang(int Id)
         {
             var data = await context.ChiTietHoaDon.Include(x => x.HoaDon)

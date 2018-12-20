@@ -1,6 +1,8 @@
+@using PhuKienDienThoai.Controllers
+
 @{
-    Layout="_MainLayout";
-    ViewData["HeadTitle"]="Quản lý đơn hàng";
+    Layout = "_MainLayout";
+    ViewData["HeadTitle"] = "Quản lý đơn hàng";
 }
 @model List<PhuKienDienThoai.Models.ChiTietHoaDon>
 <section id="cart_items">
@@ -14,14 +16,14 @@
                     <td class="">Thành tiền</td>
                 </tr>
             </thead>
-            <tbody> 
-                @if(Model.Count() > 0)
+            <tbody>
+                @if (Model.Count() > 0)
                 {
-                    foreach(var item in Model)
+                    foreach (var item in Model)
                     {
                         <tr>
-                            <td class="cart_price text-center">
-                                <p><a href="~/SanPham/Index/@item.SanPham.id">#@item.SanPham.id</a></p>
+                            <td class="cart_price image">
+                                <p><a asp-controller="SanPham" asp-action="Index" asp-route-id="@item.SanPham.id" asp-route-tensanpham="@(SlugController.GenerateSlug(item.SanPham.TenSanPham))">#@item.SanPham.id</a></p>
                             </td>
                             <td class="cart_price">
                                 <p>@item.SanPham.TenSanPham</p>
@@ -30,7 +32,7 @@
                                 <p>@item.SoLuong</p>
                             </td>
                             <td class="cart_price">
-                                <p>@item.ThanhTien</p>
+                                <p>@item.ThanhTien.ToString("#,0")Đ</p>
                             </td>
                         </tr>
                     }
@@ -39,8 +41,8 @@
                 {
                     <tr>
                         <td colspan="3" class="text-center">Bạn chưa đặt hàng lần nào</td>
-                    </tr>   
-                }    
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
