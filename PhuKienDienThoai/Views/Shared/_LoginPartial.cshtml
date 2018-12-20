@@ -27,7 +27,7 @@
                     <a asp-area="Admin" asp-controller="Home" asp-action="Index">Trang quản trị</a>
                 </li>
                 <li>
-                    <a is-active-route asp-area="Users" asp-controller="TaiKhoan" asp-action="Index"> <i class="fa fa-user" aria-hidden="true"></i> Quản lí tài khoản</a>
+                    <a is-active-route asp-area="Users" asp-controller="TaiKhoan" asp-action="Index"> <i class="fa fa-user" aria-hidden="true"></i> @UserManager.GetUserName(User)</a>
                 </li> 
                 <li>
                     <a asp-controller="GioHang" asp-area="" asp-action="Index"><i class="fa fa-shopping-cart"></i> Giỏ hàng của tôi (<b>@soluonghangtronggio</b>)</a>
@@ -42,7 +42,7 @@
             else
             {
                 <li>
-                    <a is-active-route asp-area="Users" asp-controller="TaiKhoan" asp-action="Index"> <i class="fa fa-user" aria-hidden="true"></i> Quản lí tài khoản</a>
+                    <a is-active-route asp-area="Users" asp-controller="TaiKhoan" asp-action="Index"> <i class="fa fa-user" aria-hidden="true"></i> @UserManager.GetUserName(User)</a>
                 </li>   
                 <li>
                     <a asp-controller="GioHang" asp-area="" asp-action="Index"><i class="fa fa-shopping-cart"></i> Giỏ hàng của tôi (<b>@soluonghangtronggio</b>)</a>
