@@ -44,6 +44,8 @@ namespace PhuKienDienThoai.Controllers
         {
             var data = await context.SanPham.Where(x => x.GiaCu > 0).OrderByDescending(o => o.PhanTramGiamGia).ToListAsync();
 
+            ViewData["ActiveMatHang"] = "PhuKienGiamGia";
+
             ViewData["HeadTitle"] = "Phụ kiện đang giảm giá";
             ViewData["Title"] = "Phụ kiện đang giảm giá";
 

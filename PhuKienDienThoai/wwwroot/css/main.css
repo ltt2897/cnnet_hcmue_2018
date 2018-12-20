@@ -683,6 +683,10 @@ h2.title:before {
         text-transform: uppercase;
     }
 
+    .category-products .panel-default .panel-heading .panel-title.active > a {
+        color: #fdb45e !important;
+    }
+
 .panel-group .panel-heading + .panel-collapse .panel-body {
     border-top: 0 none;
 }
