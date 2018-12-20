@@ -19,7 +19,7 @@ namespace PhuKienDienThoai.Controllers
         public DanhMucController(ApplicationDbContext _context) => context = _context;
 
         [HttpGet]
-        [Route("{tendanhmuc}-{id:int}.html")]
+        [Route("mat-hang/{tendanhmuc}-{id:int}.html")]
         public async Task<IActionResult> Index(int id, int? page)
         {
             var data = await context.SanPham

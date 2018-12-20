@@ -11,7 +11,9 @@ namespace PhuKienDienThoai.Controllers
     {
         ApplicationDbContext context;
         public ThuongHieuController(ApplicationDbContext _context) => context = _context;
-        [HttpGet("[Controller]/{id}")]
+
+        [HttpGet]
+        [Route("thuong-hieu/{tenthuonghieu}-{id:int}.html")]
         public async Task<IActionResult> Index(int id, int? page)
         {
             var data = await context.SanPham
@@ -24,8 +26,7 @@ namespace PhuKienDienThoai.Controllers
             ViewData["HeadTitle"] = ThuongHieu.TenThuongHieu;
             ViewData["Title"] = "Sản phẩm theo thương hiệu " + ViewData["HeadTitle"];
             var model = data.ToPagedList(page ?? 1, 9);
-            return View("Views/Home/Index.cshtml", model);
-            // return View("Views/Home/Index.cshtml",data);
+            return View("Views/Home/Components/AllProducts.cshtml", model);
         }
         protected override void Dispose(bool disposing)
         {

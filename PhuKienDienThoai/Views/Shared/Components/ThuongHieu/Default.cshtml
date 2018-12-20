@@ -1,19 +1,24 @@
 @using PhuKienDienThoai.Models
+@using PhuKienDienThoai.Controllers
+
 @model List<ThuongHieu>
-<div class="brands_products"><!--brands_products-->
+<div class="brands_products">
+    <!--brands_products-->
     <h2 class="title text-center"><span class="text-block">Thương hiệu</span></h2>
     <div class="brands-name">
-       
+
         <ul class="nav nav-pills nav-stacked">
-            @foreach(var item in Model)
+            @foreach (var item in Model)
             {
-                <li><a asp-action="Index" 
-                        asp-controller="ThuongHieu" 
-                        asp-route-id="@item.Id"> <span class="pull-right">(@item.SanPhames.Count())</span>@item.TenThuongHieu</a></li>
+                <li>
+                    <a asp-action="Index" asp-controller="ThuongHieu" asp-route-id="@item.Id" asp-route-tenthuonghieu="@(SlugController.GenerateSlug(item.TenThuongHieu))">
+                        <span class="pull-right">(@item.SanPhames.Count())</span>@item.TenThuongHieu
+                    </a>
+                </li>
             }
-            
-            
-            
+
+
+
             @*
                 <li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
                 <li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
