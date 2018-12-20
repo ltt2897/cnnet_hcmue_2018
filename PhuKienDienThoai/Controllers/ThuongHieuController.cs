@@ -23,9 +23,12 @@ namespace PhuKienDienThoai.Controllers
 
             var ThuongHieu = await context.ThuongHieu.FindAsync(id);
 
+            ViewData["ActiveThuongHieu"] = ThuongHieu.TenThuongHieu;
+
             ViewData["HeadTitle"] = ThuongHieu.TenThuongHieu;
             ViewData["Title"] = "Sản phẩm theo thương hiệu " + ViewData["HeadTitle"];
             var model = data.ToPagedList(page ?? 1, 9);
+
             return View("Views/Home/Components/AllProducts.cshtml", model);
         }
         protected override void Dispose(bool disposing)

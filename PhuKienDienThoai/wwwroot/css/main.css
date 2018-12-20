@@ -251,10 +251,7 @@ a#scrollUp {
             background: none;
             color: #fdb45e;
         }
- {
-    background: none;
-    color: #fdb45e;
-}
+
 .search_box input {
     background: #F0F0E9;
     border: medium none;
@@ -740,6 +737,10 @@ h2.title:before {
             background-color: #fff;
             color: #696763;
         }
+
+    .brands-name ul li.active a {
+        color: #fdb45e !important;
+    }
 
 .shipping {
     background-color: #F2F2F2;

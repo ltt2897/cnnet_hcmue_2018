@@ -2,6 +2,13 @@
 @using PhuKienDienThoai.Controllers
 
 @model List<ThuongHieu>
+@{
+    if (ViewData["ActiveThuongHieu"] == null)
+    {
+        ViewData["ActiveThuongHieu"] = "";
+    }
+}
+
 <div class="brands_products">
     <!--brands_products-->
     <h2 class="title text-center"><span class="text-block">Thương hiệu</span></h2>
@@ -10,7 +17,7 @@
         <ul class="nav nav-pills nav-stacked">
             @foreach (var item in Model)
             {
-                <li>
+                <li @(item.TenThuongHieu == ViewData["ActiveThuongHieu"].ToString() ? "class=active" : "")>
                     <a asp-action="Index" asp-controller="ThuongHieu" asp-route-id="@item.Id" asp-route-tenthuonghieu="@(SlugController.GenerateSlug(item.TenThuongHieu))">
                         <span class="pull-right">(@item.SanPhames.Count())</span>@item.TenThuongHieu
                     </a>
