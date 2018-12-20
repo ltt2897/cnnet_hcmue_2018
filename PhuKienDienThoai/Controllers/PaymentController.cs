@@ -34,6 +34,7 @@ namespace PhuKienDienThoai.Controllers
             var stringItem = HttpContext.Session.GetString("GioHang");
             var ListItemTrongGioHang = new List<GioHangViewModel>();
             ListItemTrongGioHang = JsonConvert.DeserializeObject<List<GioHangViewModel>>(stringItem);
+            // return and cancel url of paypal request
             string returnURL = Request.Scheme + "://" + Request.Host + "/Payment/ExecutePayment";
             string cancelURL = Request.Scheme + "://" + Request.Host + "/Payment/Cancel";
             var payment = _PaypalServices.CreatePayment(ListItemTrongGioHang, returnURL, cancelURL, "sale");
