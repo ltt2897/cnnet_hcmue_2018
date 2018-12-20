@@ -11,7 +11,9 @@ namespace PhuKienDienThoai.Controllers
     {
         private ApplicationDbContext context;
         public TimKiemController(ApplicationDbContext _context) => context = _context;
-        [HttpGet("[action]")]
+
+        [HttpGet]
+        [Route("tim-kiem/{*s}")]
         public async Task<IActionResult> Search(string keyword, int? page)
         {
             ViewData["HeadTitle"] = "Tìm kiếm: " + keyword + " - Phụ Kiện Điện Thoại Chính Hãng";
@@ -28,7 +30,7 @@ namespace PhuKienDienThoai.Controllers
 
             var model = KetQuaTimKiem.ToPagedList(page ?? 1, 9);
 
-            return View("Views/Home/Search.cshtml", model);
+            return View("Views/Home/Components/AllProducts.cshtml", model);
         }
 
         protected override void Dispose(bool disposing)
