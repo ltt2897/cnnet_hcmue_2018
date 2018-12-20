@@ -28,8 +28,7 @@ namespace PhuKienDienThoai.Controllers
         {
             var ListSanPham = await context.SanPham.ToListAsync();
             var model = ListSanPham.ToPagedList(page ?? 1, 9);
-            // return View(ListSanPham);
-            return View(model);
+            return View("Views/Home/Components/AllProducts.cshtml", model);
         }
 
         [Route("lien-he.html")]

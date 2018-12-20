@@ -20,7 +20,7 @@ namespace PhuKienDienThoai.Controllers
 
         [HttpGet]
         [Route("{tendanhmuc}-{id:int}.html")]
-        public async Task<IActionResult> Index(int id, int? page, string tendanhmuc)
+        public async Task<IActionResult> Index(int id, int? page)
         {
             var data = await context.SanPham
                                     .Include(x => x.DanhMuc)
@@ -36,20 +36,19 @@ namespace PhuKienDienThoai.Controllers
             ViewData["Title"] = ViewData["HeadTitle"];
 
             var model = data.ToPagedList(page ?? 1, 9);
-            return View("Views/Home/AllProducts.cshtml", model);
+            return View("Views/Home/Components/AllProducts.cshtml", model);
         }
 
-        [Route("[Controller]/[Action]")]
-        public async Task<IActionResult> SanPhamGiamGia(int? page)
+        [Route("phu-kien-giam-gia.html")]
+        public async Task<IActionResult> PhuKienGiamGia(int? page)
         {
-            var data = await context.SanPham.Where(x => x.GiaCu != 0)
-                                        .ToListAsync();
+            var data = await context.SanPham.Where(x => x.GiaCu > 0).OrderByDescending(o => o.PhanTramGiamGia).ToListAsync();
 
-            ViewData["HeadTitle"] = "Sản phẩm giảm giá";
-            ViewData["Title"] = "Sản phẩm giảm giá";
+            ViewData["HeadTitle"] = "Phụ kiện đang giảm giá";
+            ViewData["Title"] = "Phụ kiện đang giảm giá";
 
             var model = data.ToPagedList(page ?? 1, 9);
-            return View("Views/Home/Index.cshtml", model);
+            return View("Views/Home/Components/AllProducts.cshtml", model);
         }
 
     }
