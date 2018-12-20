@@ -98,7 +98,7 @@
 <script>
     $(function ()
     {
-        var datatable = $("#tb_MatHang").DataTable();
+        var datatable = $("#tb_MatHang").dataTable({"lengthMenu": [ 25, 50, 75, 100 ]});
         $("#tb_MatHang").on("click", ".btn-editMatHang", function (e)
         {
             e.preventDefault();

@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,11 @@ namespace PhuKienDienThoai.Controllers
                 .ToArray());
     
             return s.Normalize(NormalizationForm.FormC);
+        }
+
+        public static int CalculateSaleOffPercent(double phanTram)
+        {
+            return (int)Math.Ceiling(phanTram);
         }
     }
 }

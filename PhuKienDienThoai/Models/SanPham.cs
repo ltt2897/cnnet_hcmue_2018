@@ -26,7 +26,8 @@ namespace PhuKienDienThoai.Models
         public MatHang MatHang { get; set; }
         [ForeignKey("MatHang")]
         public int MatHangId { get; set; }
-        public int PhanTramGiamGia { get; set; }
+        public int GiaCu { get; set; }
+        public double PhanTramGiamGia { get; set; }
         public int SoLuong { get; set; }
         public string MauSac { get; set; }
         public string TomTat { get; set; }
@@ -39,6 +40,7 @@ namespace PhuKienDienThoai.Models
             DinhDang = "Nhựa";
             //mặc định chưa có sản phẩm nào được giảm giá
             PhanTramGiamGia = 0;
+            GiaCu = 0;
             //số lượng mặc định bằng 200
             SoLuong = 200;
             //danh sách các đánh giá

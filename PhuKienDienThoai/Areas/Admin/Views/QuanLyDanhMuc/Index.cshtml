@@ -118,7 +118,7 @@
 <script>
     $(function ()
     {
-        var datatable = $("#tb_DanhMuc").DataTable();
+        var datatable = $("#tb_DanhMuc").dataTable({"lengthMenu": [ 25, 50, 75, 100 ]});
         $("#tb_DanhMuc").on("click", ".btn-editDanhMuc", function (e)
         {
             e.preventDefault();

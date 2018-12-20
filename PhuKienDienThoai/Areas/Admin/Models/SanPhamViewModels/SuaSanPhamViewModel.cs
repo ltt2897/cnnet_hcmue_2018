@@ -64,11 +64,17 @@ namespace PhuKienDienThoai.Areas.Admin.Models.SanPhamViewModels
 
         #endregion
 
+        #region Giá cũ
+
+        [Display(Name = "Giá cũ (tạo giảm giá)")]
+        public int GiaCu { get; set; } = 0;
+
+        #endregion
+
         #region Phần trăm giảm giá
 
         [Display(Name = "Phần trăm giảm giá")]
-        public int PhanTramGiamGia { get; set; } = 0;
-
+        public double PhanTramGiamGia { get; set; } = 0;
         #endregion
 
         #region Số lượng

@@ -22,8 +22,8 @@ namespace PhuKienDienThoai.Controllers
         /*
         route Tensanpham chủ yếu làm cho đường dẫn trong đẹp hơn và cầu kỳ hơn chứ tên sản phẩm cũng không có chức năng gì khác
          */
-        [HttpGet("{TenSanPham}-{id}.html")]
-        public async Task<IActionResult> Index(int id, string TenSanPham)
+        [HttpGet("{tensanpham}-{id:int}.html")]
+        public async Task<IActionResult> Index(int id, string tensanpham)
         {
             var sanpham = await context.SanPham
                                     .Include(x => x.DongDienThoai)

@@ -5,39 +5,42 @@
 @using PhuKienDienThoai.Controllers
 @*@using X.PagedList;*@
 @{
-    ViewData["HeadTitle"] = "PhuKienDienThoai.com - Phụ Kiện Điện Thoại Chính Hãng";
+    if (ViewData["HeadTitle"] == null)
+    {
+        ViewData["HeadTitle"] = "Tất cả sản phẩm";
+    }
+    if (ViewData["Title"] == null) {
+        ViewData["Title"] = "Tất cả sản phẩm đang bán";
+    }
 }
-
 <div class="features_items">
     <!--features_items-->
-    <h2 class="title text-center"><span class="text-block">Tất cả sản phẩm đang bán</span></h2>
+    <h2 class="title text-center"><span class="text-block">@ViewData["Title"]</span></h2>
     <div class="row">
         @if (Model.Count > 0)
         {
             @foreach (var item in Model)
             {
-                var isGiamGia = (item.PhanTramGiamGia > 0) ? true : false;
+                var isGiamGia = (item.GiaCu > 0) ? true : false;
                 <div class="col-sm-4" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo">
                                 @if (isGiamGia)
                                 {
-                                    <div class="giam-percent">
-                                        <span class="text-giam-percent">Giảm @(item.PhanTramGiamGia)%</span>
-                                    </div>
+                                <div class="giam-percent">
+                                    <span class="text-giam-percent">Giảm @(SlugController.CalculateSaleOffPercent(item.PhanTramGiamGia))%</span>
+                                </div>
                                 }
                                 <div class="imageinfo text-center">
                                     <img src="~/images/sanpham/@item.HinhAnh" title="Ảnh sản phẩm của @item.TenSanPham" style="height: 100%; width:auto; max-height:130px" alt="" />
                                 </div>
                                 <div class="priceinfo">
+                                    <span class="price">@item.DonGia.ToString("#,0")Đ</span>
                                     @if (isGiamGia)
                                     {
-                                        <span class="price">@((item.DonGia * (100 - item.PhanTramGiamGia) / 100).ToString("#,0"))Đ</span><span class="old-price">@item.DonGia.ToString("#,0")Đ</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="price">@item.DonGia.ToString("#,0")Đ</span>
+
+                                        <span class="old-price">@item.GiaCu.ToString("#,0")Đ</span>
                                     }
                                 </div>
                                 <p class="nameinfo" title="@item.TenSanPham">@item.TenSanPham</p>
@@ -46,7 +49,7 @@
                         <div class="choose">
                             <ul class="nav nav-pills nav-justified">
                                 <li><a asp-controller="Wishlist" asp-area="Users" asp-action="ThemVaoWishList" data-id="@item.id" class="ThemVaoWishList"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
-                                <li><a asp-controller="SanPham" asp-action="Index" asp-route-id="@item.id" asp-route-TenSanPham="@(SlugController.GenerateSlug(item.TenSanPham))"><i class="fa fa-info"></i>Chi tiết sản phẩm</a></li>
+                                <li><a asp-controller="SanPham" asp-action="Index" asp-route-id="@item.id" asp-route-tensanpham="@(SlugController.GenerateSlug(item.TenSanPham))"><i class="fa fa-info"></i>Chi tiết sản phẩm</a></li>
                             </ul>
                         </div>
                     </div>
@@ -71,36 +74,4 @@
         @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
     </div>
 }
-
-@if (TempData["Message"] != null)
-{
-    <script>
-        alert("@Html.Raw(TempData["Message"])");
-    </script>
-}
-
-<!-- Load Facebook SDK for JavaScript -->
-<div id="fb-root"></div>
-<script>
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-<!-- Your customer chat code -->
-<div class="fb-customerchat"
-     attribution=setup_tool
-     page_id="2272096263019231"
-     theme_color="#ff7e29">
-</div>
-
-<!-- Subiz Chat -->
-<script>
-    (function (s, u, b, i, z) { u[i] = u[i] || function () { u[i].t = +new Date(); (u[i].q = u[i].q || []).push(arguments); }; z = s.createElement('script'); var zz = s.getElementsByTagName('script')[0]; z.async = 1; z.src = b; z.id = 'subiz-script'; zz.parentNode.insertBefore(z, zz); })(document, window,
-        'https://widgetv4.subiz.com/static/js/app.js', 'subiz'); subiz('setAccount', 'achizkqwrxuokbga');
-</script>
-
 

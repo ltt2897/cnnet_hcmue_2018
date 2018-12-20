@@ -96,7 +96,7 @@
     <script>
     $(function()
     {
-        var datatable = $("#tb_ThuongHieu").DataTable();
+        var datatable = $("#tb_ThuongHieu").dataTable({"lengthMenu": [ 25, 50, 75, 100 ]});
         $("#tb_ThuongHieu").on("click",".btn-editThuongHieu", function(e)
         {
             e.preventDefault();

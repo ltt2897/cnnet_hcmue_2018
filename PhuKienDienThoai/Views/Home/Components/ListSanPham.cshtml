@@ -8,16 +8,16 @@
         {
             @foreach (var item in Model)
             {
-                var isGiamGia = (item.PhanTramGiamGia > 0) ? true : false;
+                var isGiamGia = (item.GiaCu > 0) ? true : false;
                 <div class="col-sm-4" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo">
                                 @if (isGiamGia)
                                 {
-                                    <div class="giam-percent">
-                                        <span class="text-giam-percent">Giảm @(item.PhanTramGiamGia)%</span>
-                                    </div>
+                                <div class="giam-percent">
+                                    <span class="text-giam-percent">Giảm @(SlugController.CalculateSaleOffPercent(item.PhanTramGiamGia))%</span>
+                                </div>
                                 }
                                 <div class="imageinfo text-center">
                                     <img src="~/images/sanpham/@item.HinhAnh" title="Ảnh sản phẩm của @item.TenSanPham" style="height: 100%; width:auto; max-height:130px" alt="" />
@@ -25,7 +25,7 @@
                                 <div class="priceinfo">
                                     @if (isGiamGia)
                                     {
-                                        <span class="price">@((item.DonGia * (100 - item.PhanTramGiamGia) / 100).ToString("#,0"))Đ</span><span class="old-price">@item.DonGia.ToString("#,0")Đ</span>
+                                        <span class="price">@item.DonGia.ToString("#,0")Đ</span><span class="old-price">@item.GiaCu.ToString("#,0")Đ</span>
                                     }
                                     else
                                     {

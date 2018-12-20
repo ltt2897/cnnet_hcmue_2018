@@ -14,7 +14,7 @@ namespace PhuKienDienThoai.ViewComponents
         public PhuKienGiamGiaViewComponent(ApplicationDbContext _context) => context = _context;
         public async Task<IViewComponentResult> InvokeAsync(int soluong)
         {
-            var model = await context.SanPham.Where(x => x.PhanTramGiamGia > 0).OrderByDescending(o => o.PhanTramGiamGia).Take(soluong).ToListAsync();
+            var model = await context.SanPham.Where(x => x.GiaCu > 0).OrderByDescending(o => o.PhanTramGiamGia).Take(soluong).ToListAsync();
             ViewData["Title"] = "Phụ kiện giảm giá sốc";
 
             return View("Components/ListSanPham.cshtml", model);

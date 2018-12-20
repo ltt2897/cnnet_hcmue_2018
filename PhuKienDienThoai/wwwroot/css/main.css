@@ -251,7 +251,10 @@ a#scrollUp {
             background: none;
             color: #fdb45e;
         }
-
+ {
+    background: none;
+    color: #fdb45e;
+}
 .search_box input {
     background: #F0F0E9;
     border: medium none;
@@ -711,6 +714,10 @@ h2.title:before {
         font-family: 'Roboto', sans-serif;
         font-size: 12px;
         text-transform: uppercase;
+    }
+
+    .panel-body ul li.active a {
+        color: #fdb45e !important;
     }
 
 .brands-name {

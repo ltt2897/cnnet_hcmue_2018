@@ -65,7 +65,7 @@
     <script>
     $(function()
     {
-       $("#tb_SanPham").dataTable();
+       $("#tb_SanPham").dataTable({"lengthMenu": [ 25, 50, 75, 100 ]});
         @if(ViewData["Message"]!=null)
         {
             @:alert("@ViewData["Message"]");

@@ -8,7 +8,7 @@
 @model SanPham
 @if(Model != null)
 {
-    var isGiamGia = (Model.PhanTramGiamGia>0)?true:false;
+    var isGiamGia = (Model.GiaCu > 0) ? true : false;
     <div class="product-details"><!--product-details-->
         <div class="col-sm-5">
             <div class="view-product">
@@ -20,14 +20,10 @@
                 <h2>@Model.TenSanPham</h2>
                 <p>ID Sản phẩm: @Model.id</p>
                 <form id="frmDatHang" asp-action="ThemVaoGioHang" asp-controller="GioHang" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
+                    <span class="price">@Model.DonGia.ToString("#,0")Đ</span>    
                     @if (isGiamGia)
                     {
-                        <span class="price">@((Model.DonGia * (100 - Model.PhanTramGiamGia) / 100).ToString("#,0"))Đ</span>
-                        <span class="old-price">@Model.DonGia.ToString("#,0")Đ</span>
-                    }
-                    else
-                    {
-                        <span class="price">@Model.DonGia.ToString("#,0")Đ</span>
+                        <span class="old-price">@Model.GiaCu.ToString("#,0")Đ</span>
                     }
                     <div class="clearfix"></div>
                     <input type="hidden" name="SanPhamId" value="@Model.id">
