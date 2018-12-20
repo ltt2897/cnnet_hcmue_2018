@@ -73,25 +73,33 @@
             </div>
             <div class="tab-pane fade" id="NhanXet" >
                 <div class="col-sm-12">
-                    <form asp-action="ThemNhanXet" asp-controller="SanPham" id="frm_NhanXet" asp-route-returnurl="@ViewData["ReturnUrl"]">
-                        <p><b>Ghi nhận xét của bạn</b></p>
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <input class="form-control" type="text" name="TieuDe" placeholder="Tiêu đề"/>
-                                <input type="hidden" name="SanPhamId" value="@Model.id"/>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-action="ThemNhanXet" asp-controller="SanPham" id="frm_NhanXet" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                            <p><b>Ghi nhận xét của bạn</b></p>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input class="form-control" type="text" name="TieuDe" placeholder="Tiêu đề" />
+                                    <input type="hidden" name="SanPhamId" value="@Model.id" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <textarea name="NoiDung" class="form-control" id="BinhLuan"></textarea>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <textarea name="NoiDung" class="form-control" id="BinhLuan"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-default pull-right">
-                            Thêm nhận xét
-                        </button>
-                    </form>
+                            <button type="submit" class="btn btn-default pull-right">
+                                Thêm nhận xét
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <p><b>Bạn phải đăng nhập trước khi bình luận.</b></p>
+                    }
+                    <hr/>
                     <div id="NhanXet">
-                        @await Component.InvokeAsync("NhanXetSanPham", new {SanPhamId=Model.id})
+                        @await Component.InvokeAsync("NhanXetSanPham", new { SanPhamId = Model.id })
                     </div>
                 </div>
             </div>
