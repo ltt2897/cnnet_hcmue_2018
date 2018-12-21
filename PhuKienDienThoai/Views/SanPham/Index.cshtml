@@ -15,30 +15,7 @@
                 <img src="~/images/SanPham/@Model.HinhAnh" title="Ảnh sản phẩm của @Model.TenSanPham" alt="" />
             </div>
         </div>
-        <div class="col-sm-7">
-            <div class="product-information"><!--/product-information-->
-                <h2>@Model.TenSanPham</h2>
-                <p>ID Sản phẩm: @Model.id</p>
-                <form id="frmDatHang" asp-action="ThemVaoGioHang" asp-controller="GioHang" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
-                    <span class="price">@Model.DonGia.ToString("#,0")Đ</span>    
-                    @if (isGiamGia)
-                    {
-                        <span class="old-price">@Model.GiaCu.ToString("#,0")Đ</span>
-                    }
-                    <div class="clearfix"></div>
-                    <input type="hidden" name="SanPhamId" value="@Model.id">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <label>
-                            Số lượng:
-                            <input type="text" value="1" name="SoLuong" required="required" class="Quantity" />
-                        </label>
-                        <button type="submit" class="btn btn-fefault cart">
-                            <i class="fa fa-shopping-cart"></i>
-                            Đặt Hàng
-                        </button>
-                    }
-                </form><br />
+       
                 <p><b>Dòng điện thoại:</b> @Model.DongDienThoai.TenDongDienThoai</p>
                 <p><b>Thương hiệu:</b> @Model.ThuongHieu.TenThuongHieu</p>
                 <p><b>Mặt hàng:</b> @Model.MatHang.TenMatHang</p>
